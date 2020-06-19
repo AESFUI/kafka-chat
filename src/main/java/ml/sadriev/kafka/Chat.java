@@ -1,7 +1,11 @@
 package ml.sadriev.kafka;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import javax.annotation.Resource;
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.stereotype.Component;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -20,6 +24,10 @@ public class Chat {
 
     @Resource
     private ChatEngine chatEngine;
+    @Resource
+    private ConsumerFactory<String, String> consumerFactory;
+/*    @Resource
+    private ChatConsumer chatConsumer;*/
 
     private void loop() {
         final Scanner scanner = new Scanner(System.in);
@@ -32,10 +40,14 @@ public class Chat {
             System.exit(-1);
         }
 
-        System.out.println("Hello, "+ login + "!\nEnter command: bc or pv");
+        final Consumer<Long, String> consumer = new KafkaConsumer<>(consumerFactory.getConfigurationProperties());
+        consumer.subscribe(Arrays.asList("topic-" + login, "broadcastTopic"));
+
+        System.out.println("Hello, "+ login + "!");
 
         String command = "";
         while (!EXIT_COMMAND.equals(command)) {
+            System.out.println("Enter command: bc, pv or exit");
             command = scanner.nextLine();
 
             if (BROADCAST_MESSAGE.equals(command)) {
@@ -49,12 +61,12 @@ public class Chat {
     }
 
     private void doPrivateMessage(Scanner scanner) {
-        System.out.println(ENTER_PRIVATE_MESSAGE_TEXT);
-        final String message = scanner.nextLine();
-
         System.out.println(ENTER_USER_NAME_TEXT);
         final String userConsumer = scanner.nextLine();
+
         if (!isBlank(userConsumer)) {
+            System.out.println(ENTER_PRIVATE_MESSAGE_TEXT);
+            final String message = scanner.nextLine();
             chatEngine.sendMessage(message, userConsumer);
         }
     }

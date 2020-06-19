@@ -14,7 +14,6 @@ import org.springframework.kafka.core.ProducerFactory;
 @Configuration
 public class KafkaProducerConfig {
 
-//    @Value(value = "${kafka.server}")
     @Value(value = "localhost:9092")
     private String serverAddress;
 

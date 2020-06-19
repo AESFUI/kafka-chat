@@ -3,6 +3,7 @@ package ml.sadriev.kafka;
 import javax.annotation.Resource;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -12,14 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChatEngine {
 
-    private static final String TOPIC_PREFIX = "topic";
+    private static final String TOPIC_PREFIX = "topic-";
     private static final String BROADCAST_TOPIC = "broadcastTopic";
-
-/*    public ChatEngine(String login) {
-        this.login = login;
-        this.topic = TOPIC_PREFIX + login;
-        this.broadcastTopic = BROADCAST_TOPIC;
-    }*/
 
     @Resource
     private KafkaTemplate<String, String> kafkaTemplate;
@@ -33,7 +28,13 @@ public class ChatEngine {
     }
 
     @KafkaListener(topics = BROADCAST_TOPIC)
-    public void listen(String message) {
+    public void listenBC(String message) {
         System.out.println("Received broadcast message: " + message);
+    }
+
+//    @KafkaListener(topics = "#{chatConsumer.getLogin()}")
+    @KafkaListener(topics = "saas")
+    public void listenPV(ConsumerRecord<String, String> record) {
+        System.out.println("Received private message from : " + record.value());
     }
 }

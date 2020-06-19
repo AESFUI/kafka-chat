@@ -12,7 +12,6 @@ import org.springframework.kafka.core.KafkaAdmin;
 @Configuration
 public class KafkaTopicConfig {
 
-//    @Value(value = "${kafka.server}")
     @Value(value = "localhost:9092")
     private String serverAddress;
 

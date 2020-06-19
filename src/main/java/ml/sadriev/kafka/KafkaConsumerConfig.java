@@ -16,11 +16,10 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 @Configuration
 public class KafkaConsumerConfig {
 
-//    @Value(value = "${kafka.server}")
     @Value(value = "localhost:9092")
     private String serverAddress;
 
-    @Value("${kafka.group.id}")
+    @Value("group.id")
     private String groupId;
 
     @Bean
@@ -31,7 +30,7 @@ public class KafkaConsumerConfig {
                 serverAddress);
         props.put(
                 ConsumerConfig.GROUP_ID_CONFIG,
-                groupId);
+                groupId + System.nanoTime());
         props.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
                 StringDeserializer.class);
