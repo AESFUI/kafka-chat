@@ -1,6 +1,7 @@
 package ml.sadriev.kafka;
 
-import ml.sadriev.kafka.config.ContextConfiguration;
+import ml.sadriev.kafka.client.Chat;
+import ml.sadriev.kafka.context.ContextConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

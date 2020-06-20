@@ -1,4 +1,4 @@
-package ml.sadriev.kafka;
+package ml.sadriev.kafka.config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaAdmin;
+
+import static ml.sadriev.kafka.services.ChatServices.BROADCAST_TOPIC;
 
 @Configuration
 public class KafkaTopicConfig {
@@ -24,6 +26,6 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic broadcastTopic() {
-        return new NewTopic("broadcastTopic", 1, (short) 1);
+        return new NewTopic(BROADCAST_TOPIC, 1, (short) 1);
     }
 }

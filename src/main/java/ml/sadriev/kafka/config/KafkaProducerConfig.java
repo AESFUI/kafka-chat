@@ -1,4 +1,4 @@
-package ml.sadriev.kafka;
+package ml.sadriev.kafka.config;
 
 import java.util.HashMap;
 import java.util.Map;
