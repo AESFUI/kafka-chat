@@ -33,7 +33,7 @@ public class ChatEngine {
     }
 
 //    @KafkaListener(topics = "#{chatConsumer.getLogin()}")
-    @KafkaListener(topics = "saas")
+    @KafkaListener(topics = "topic-saas")
     public void listenPV(ConsumerRecord<String, String> record) {
         System.out.println("Received private message from : " + record.value());
     }

@@ -26,8 +26,8 @@ public class Chat {
     private ChatEngine chatEngine;
     @Resource
     private ConsumerFactory<String, String> consumerFactory;
-/*    @Resource
-    private ChatConsumer chatConsumer;*/
+    @Resource
+    private ChatConsumer chatConsumer;
 
     private void loop() {
         final Scanner scanner = new Scanner(System.in);
@@ -40,8 +40,9 @@ public class Chat {
             System.exit(-1);
         }
 
-        final Consumer<Long, String> consumer = new KafkaConsumer<>(consumerFactory.getConfigurationProperties());
-        consumer.subscribe(Arrays.asList("topic-" + login, "broadcastTopic"));
+//        final Consumer<Long, String> consumer = new KafkaConsumer<>(consumerFactory.getConfigurationProperties());
+        chatConsumer.setConsumer(new KafkaConsumer<String, String>(consumerFactory.getConfigurationProperties()));
+        chatConsumer.getConsumer().subscribe(Arrays.asList("topic-" + login, "broadcastTopic"));
 
         System.out.println("Hello, "+ login + "!");
 
